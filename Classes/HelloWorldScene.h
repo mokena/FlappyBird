@@ -8,6 +8,8 @@ class HelloWorld : public cocos2d::Layer
 {
 private:
 	Sprite* bird;
+	Sprite* ground;
+
 public:
     static cocos2d::Scene* createScene();
 
