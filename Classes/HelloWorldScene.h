@@ -9,11 +9,15 @@ class HelloWorld : public cocos2d::Layer
 private:
 	Sprite* bird;
 	Sprite* ground;
-
+	Size visibleSize;
 public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
+
+	void addBars(float dt);
+
+	virtual void update(float dt);
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
