@@ -18,6 +18,7 @@ public:
 	void addBars(float dt);
 
 	virtual void update(float dt);
+	virtual bool onTouchBegan(Touch* touch, Event* event);
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);

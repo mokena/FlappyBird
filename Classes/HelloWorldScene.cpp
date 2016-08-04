@@ -8,6 +8,7 @@ Scene* HelloWorld::createScene()
 
 	//set world's gravity
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -10));
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 	// 'layer' is an autorelease object
 	auto layer = HelloWorld::create();
@@ -36,7 +37,7 @@ bool HelloWorld::init()
 	bird = Sprite::create("bird.png");
 	auto birdBody = PhysicsBody::createBox(bird->getContentSize(), PhysicsMaterial(0.1f, 1.0f, 0.0f));
 	bird->setPhysicsBody(birdBody);
-	bird->setPosition(visibleSize / 4);
+	bird->setPosition(Vec2(visibleSize.width / 4, visibleSize.height / 2));
 	addChild(bird);
 
 	//add ground
@@ -48,9 +49,19 @@ bool HelloWorld::init()
 	ground->setPosition(Vec2::ZERO);
 	addChild(ground);
 
+	setTouchEnabled(true);
+	setTouchMode(Touch::DispatchMode::ONE_BY_ONE);
+
 	schedule(CC_SCHEDULE_SELECTOR(HelloWorld::addBars), 1.0f);
 	scheduleUpdate();
 
+	return true;
+}
+
+bool HelloWorld::onTouchBegan(Touch* t, Event* e) {
+	log("touched");
+	//JumpBy::create()
+	bird->getPhysicsBody()->setVelocity(Vec2(0, 20));
 	return true;
 }
 
@@ -64,7 +75,7 @@ void HelloWorld::addBars(float dt) {
 	upBar->setPosition(visibleSize.width + 20, 
 		visibleSize.height - upBar->getContentSize().height / 2);
 	auto upBody = PhysicsBody::createBox(upBar->getContentSize(), 
-		PhysicsMaterial(0.9f, 1.0f, 0.0f));
+		PhysicsMaterial(100.0f, 1.0f, 0.0f));
 	upBody->setGravityEnable(false);
 	upBody->setVelocity(Vec2(-50, 0));
 	upBar->setPhysicsBody(upBody);
@@ -74,7 +85,7 @@ void HelloWorld::addBars(float dt) {
 	downBar->setPosition(visibleSize.width + 20, 
 		downBar->getContentSize().height / 2 + ground->getContentSize().height + 2);
 	auto downBody = PhysicsBody::createBox(downBar->getContentSize(), 
-		PhysicsMaterial(0.9f, 1.0f, 0.0f));
+		PhysicsMaterial(100.0f, 1.0f, 0.0f));
 	downBody->setGravityEnable(false);
 	downBody->setVelocity(Vec2(-50, 0));
 	downBar->setPhysicsBody(downBody);
